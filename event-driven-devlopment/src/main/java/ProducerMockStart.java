@@ -7,7 +7,7 @@ import java.time.LocalDate;
 
 public class ProducerMockStart {
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws InterruptedException {
         FakeKafkaImplementation fakeKafkaImplementation = new FakeKafkaImplementation();
         PacienteRepository pacienteRepository = new PacienteRepository();
         CriarPacienteService criarPacienteService = new CriarPacienteService(pacienteRepository, fakeKafkaImplementation);
@@ -18,5 +18,11 @@ public class ProducerMockStart {
                 .dataNascimento(LocalDate.of(1997, 6, 17))
                 .build());
 
+        Thread.sleep(2000);
+        System.out.println("STEP 2: -- Criando segundo paciente --");
+        criarPacienteService.handler(CriarPacienteInput.builder()
+                .nome("Zequinha")
+                .dataNascimento(LocalDate.of(1997, 6, 17))
+                .build());
     }
 }
