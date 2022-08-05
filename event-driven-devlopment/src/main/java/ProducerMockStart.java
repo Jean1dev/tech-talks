@@ -1,9 +1,14 @@
+import module.agendamento.entity.AgendamentoRepostiory;
+import module.agendamento.inputs.AgendamentoInput;
+import module.agendamento.service.CriarAgendamentoService;
 import module.paciente.entity.PacienteRepository;
 import module.paciente.input.CriarPacienteInput;
 import module.paciente.service.CriarPacienteService;
 import shared.FakeKafkaImplementation;
 
 import java.time.LocalDate;
+import java.time.ZonedDateTime;
+import java.util.UUID;
 
 public class ProducerMockStart {
 
@@ -24,5 +29,17 @@ public class ProducerMockStart {
                 .nome("Zequinha")
                 .dataNascimento(LocalDate.of(1997, 6, 17))
                 .build());
+
+        Thread.sleep(2000);
+
+        AgendamentoRepostiory agendamentoRepostiory = new AgendamentoRepostiory();
+        CriarAgendamentoService agendamentoService = new CriarAgendamentoService(fakeKafkaImplementation, agendamentoRepostiory, pacienteRepository);
+        System.out.println("Ste 3 -- Criando um agendamento");
+        agendamentoService.handle(AgendamentoInput.builder()
+                .dataHora(ZonedDateTime.now())
+                .paciente(AgendamentoInput.PacienteInput.builder().id(UUID.randomUUID().toString()).build())
+                .build());
+
+
     }
 }
