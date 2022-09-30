@@ -1,0 +1,1 @@
+module.exports = () => console.log('varialel tech talk::', process.env.TECH_TALK_NUMBER)
